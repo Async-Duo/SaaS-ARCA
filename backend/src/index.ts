@@ -4,7 +4,7 @@ import express from "express";
 import { prisma } from "./db";
 import ComprobantesRouter from "./routes/comprobantesRoutes";
 import padronRoutes from "./routes/padronRoutes";
-import usuarioRoutes from "./authController";
+import usuarioRoutes from "./routes/usuarioRoutes";
 
 const PORT = process.env.PORT;
 

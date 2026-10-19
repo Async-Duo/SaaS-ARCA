@@ -1,7 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { prisma } from "./db";
+import { prisma } from "../db";
 
 const usuarioRoutes = express.Router();
 
