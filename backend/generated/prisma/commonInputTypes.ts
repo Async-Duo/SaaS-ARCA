@@ -164,6 +164,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumCondicionIVAFilter<$PrismaModel = never> = {
+  equals?: $Enums.CondicionIVA | Prisma.EnumCondicionIVAFieldRefInput<$PrismaModel>
+  in?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCondicionIVAFilter<$PrismaModel> | $Enums.CondicionIVA
+}
+
+export type EnumCondicionIVAWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CondicionIVA | Prisma.EnumCondicionIVAFieldRefInput<$PrismaModel>
+  in?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCondicionIVAWithAggregatesFilter<$PrismaModel> | $Enums.CondicionIVA
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCondicionIVAFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCondicionIVAFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -314,6 +331,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumCondicionIVAFilter<$PrismaModel = never> = {
+  equals?: $Enums.CondicionIVA | Prisma.EnumCondicionIVAFieldRefInput<$PrismaModel>
+  in?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCondicionIVAFilter<$PrismaModel> | $Enums.CondicionIVA
+}
+
+export type NestedEnumCondicionIVAWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CondicionIVA | Prisma.EnumCondicionIVAFieldRefInput<$PrismaModel>
+  in?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CondicionIVA[] | Prisma.ListEnumCondicionIVAFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCondicionIVAWithAggregatesFilter<$PrismaModel> | $Enums.CondicionIVA
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCondicionIVAFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCondicionIVAFilter<$PrismaModel>
 }
 
 

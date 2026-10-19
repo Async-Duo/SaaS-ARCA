@@ -40,3 +40,25 @@ model Contribuyente {
   ultimaSincronizacion DateTime @default(now())
   updatedAt            DateTime @updatedAt
 }
+
+enum CondicionIVA {
+  RESPONSABLE_INSCRIPTO
+  MONOTRIBUTO
+  EXENTO
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  passwordHash   String
+  razonSocial    String
+  cuit           String       @unique
+  condicionIva   CondicionIVA @default(MONOTRIBUTO)
+
+  // Archivos/Rutas de certificados ARCA (PKI RSA)
+  certificateUrl String?
+  privateKeyUrl  String?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}

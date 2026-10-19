@@ -27,3 +27,8 @@ export type Comprobante = Prisma.ComprobanteModel
  * 
  */
 export type Contribuyente = Prisma.ContribuyenteModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

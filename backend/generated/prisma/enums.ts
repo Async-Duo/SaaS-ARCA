@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const CondicionIVA = {
+  RESPONSABLE_INSCRIPTO: 'RESPONSABLE_INSCRIPTO',
+  MONOTRIBUTO: 'MONOTRIBUTO',
+  EXENTO: 'EXENTO'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type CondicionIVA = (typeof CondicionIVA)[keyof typeof CondicionIVA]

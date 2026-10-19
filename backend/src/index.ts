@@ -4,6 +4,7 @@ import express from "express";
 import { prisma } from "./db";
 import ComprobantesRouter from "./routes/comprobantesRoutes";
 import padronRoutes from "./routes/padronRoutes";
+import usuarioRoutes from "./authController";
 
 const PORT = process.env.PORT;
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(ComprobantesRouter);
 app.use(padronRoutes);
+app.use(usuarioRoutes);
 app.use(express.json({ limit: "10mb" }));
 
 app.listen(PORT, async () => {
