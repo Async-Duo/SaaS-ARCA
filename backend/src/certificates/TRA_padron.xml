@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loginTicketRequest version="1.0">
+    <header>
+        <source>SERIALNUMBER=CUIT 23352839159, CN=miestadofiscalhomo</source>
+        <destination>CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</destination>
+        <uniqueId>1791770925</uniqueId>
+        <generationTime>2026-10-12T01:58:45.560Z</generationTime>
+        <expirationTime>2026-10-12T14:08:45.560Z</expirationTime>
+    </header>
+    <service>ws_sr_padron_a5</service>
+</loginTicketRequest>

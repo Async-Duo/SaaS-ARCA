@@ -11,3 +11,54 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Comprobante {
+  id                String   @id @default(uuid())
+  cuitEmisor        String
+  puntoVenta        Int
+  tipoComprobante   Int      // 11 = Factura C, 1 = Factura A, 6 = Factura B
+  numeroComprobante Int
+  concepto          Int      // 1 = Productos, 2 = Servicios, 3 = Productos y Servicios
+  docTipo           Int      // 99 = Consumidor Final, 80 = CUIT, 96 = DNI
+  docNro            String
+  clienteNombre     String   @default("Consumidor Final")
+  importeTotal      Float
+  cae               String?
+  caeVencimiento    String?
+  resultado         String   // 'A' (Aprobado) o 'R' (Rechazado)
+  createdAt         DateTime @default(now())
+
+  @@index([cuitEmisor, puntoVenta, tipoComprobante])
+}
+
+model Contribuyente {
+  id                   String   @id @default(uuid())
+  cuit                 String   @unique
+  razonSocial          String
+  categoriaMonotributo String   @default("C") // "A", "B", "C", etc.
+  condicionIva         String   @default("Monotributo")
+  ultimaSincronizacion DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+enum CondicionIVA {
+  RESPONSABLE_INSCRIPTO
+  MONOTRIBUTO
+  EXENTO
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  passwordHash   String
+  razonSocial    String
+  cuit           String       @unique
+  condicionIva   CondicionIVA @default(MONOTRIBUTO)
+
+  // Archivos/Rutas de certificados ARCA (PKI RSA)
+  certificateUrl String?
+  privateKeyUrl  String?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
