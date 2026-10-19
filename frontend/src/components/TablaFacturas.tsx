@@ -24,12 +24,66 @@ export function TablaFacturas({ facturas }: TablaFacturasProps) {
       <div className="bg-slate-950/40 border-b border-slate-800/80 px-4 py-2.5 text-xs text-slate-400 flex items-center gap-2">
         <IconoInfo className="w-4 h-4 text-sky-400 shrink-0" />
         <span className="truncate">
-          Solo se listan las facturas generadas desde esta plataforma, no las
-          históricas de ARCA.
+          Solo comprobantes generados en esta plataforma.
         </span>
       </div>
 
-      <div className="w-full">
+      {/* 1. VISTA MÓVIL (Celulares como iPhone SE / pantallas < 768px) */}
+      <div className="block md:hidden divide-y divide-slate-800/60">
+        {facturas.map((f) => (
+          <div key={f.id} className="p-4 space-y-3">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="font-mono text-[11px] text-slate-400">
+                  {f.fecha}
+                </span>
+                <h3 className="font-semibold text-sm text-white">
+                  {f.cliente.nombre}
+                </h3>
+                <span className="font-mono text-[11px] text-slate-500">
+                  {String(f.puntoVenta).padStart(4, "0")}-
+                  {String(f.numeroComprobante).padStart(8, "0")}
+                </span>
+              </div>
+              <div className="text-right">
+                <span className="block font-mono font-bold text-white text-base">
+                  $
+                  {f.importeTotal.toLocaleString("es-AR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
+                <span className="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sky-950/60 text-sky-400 border border-sky-800/50">
+                  {f.estado}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-1 border-t border-slate-800/40">
+              <span className="text-[10px] font-mono text-slate-500 truncate max-w-[170px]">
+                CAE: {f.cae}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => alert(`Descargando PDF ${f.id}...`)}
+                  className="px-2.5 py-1 text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700 rounded-lg"
+                >
+                  PDF
+                </button>
+                <button
+                  onClick={() => enviarPorWhatsApp(f)}
+                  className="p-1.5 bg-slate-800 text-slate-300 border border-slate-700 rounded-lg hover:text-emerald-400"
+                  title="WhatsApp"
+                >
+                  <IconoWhatsApp className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 2. VISTA ESCRITORIO (Tablets y Desktop >= 768px) */}
+      <div className="hidden md:block w-full overflow-x-auto">
         <table className="w-full table-fixed border-collapse text-left">
           <thead>
             <tr className="border-b border-slate-800/80 bg-slate-950/50 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
@@ -47,18 +101,13 @@ export function TablaFacturas({ facturas }: TablaFacturasProps) {
                 key={f.id}
                 className="hover:bg-slate-800/25 transition-colors"
               >
-                {/* Fecha */}
                 <td className="px-3 py-3.5 font-mono text-slate-300 whitespace-nowrap">
                   {f.fecha}
                 </td>
-
-                {/* Comprobante */}
                 <td className="px-3 py-3.5 font-mono font-medium text-slate-200 whitespace-nowrap">
                   {String(f.puntoVenta).padStart(4, "0")}-
                   {String(f.numeroComprobante).padStart(8, "0")}
                 </td>
-
-                {/* Cliente */}
                 <td className="px-3 py-3.5">
                   <div
                     className="font-semibold text-white truncate"
@@ -70,16 +119,12 @@ export function TablaFacturas({ facturas }: TablaFacturasProps) {
                     {f.cliente.documento}
                   </div>
                 </td>
-
-                {/* Importe */}
                 <td className="px-3 py-3.5 text-right font-bold text-white font-mono text-sm whitespace-nowrap">
                   $
                   {f.importeTotal.toLocaleString("es-AR", {
                     minimumFractionDigits: 2,
                   })}
                 </td>
-
-                {/* Estado: Azul/Slate sobrio en lugar de verde estridente */}
                 <td className="px-3 py-3.5 text-center">
                   <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sky-950/50 text-sky-400 border border-sky-800/50">
                     {f.estado}
@@ -88,8 +133,6 @@ export function TablaFacturas({ facturas }: TablaFacturasProps) {
                     CAE: {f.cae.slice(0, 8)}...
                   </div>
                 </td>
-
-                {/* Acciones: Ancho ampliado para que WhatsApp entre completo */}
                 <td className="px-3 py-3.5 text-center">
                   <div className="inline-flex items-center justify-center gap-1.5">
                     <button
@@ -100,7 +143,7 @@ export function TablaFacturas({ facturas }: TablaFacturasProps) {
                     </button>
                     <button
                       onClick={() => enviarPorWhatsApp(f)}
-                      className="p-1.5 text-slate-300 hover:text-emerald-400 bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-emerald-500/40 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 text-slate-300 hover:text-emerald-300 bg-slate-800 hover:bg-emerald-950/60 border border-slate-700 hover:border-emerald-700/60 rounded-md transition-colors cursor-pointer"
                       title="Compartir por WhatsApp"
                     >
                       <IconoWhatsApp className="w-3.5 h-3.5" />

@@ -10,7 +10,7 @@ export interface DatosFiscales {
 
 export interface PuntoVenta {
   numero: number;
-  tipo: "Web Service" | "Comprobanes en Línea";
+  tipo: "Web Service" | "Comprobantes en Línea";
   bloqueado: boolean;
   ultimoNumero: number;
 }
@@ -31,3 +31,46 @@ export interface Factura {
   cae: string;
   vencimientoCae: string;
 }
+
+export interface UsuarioSesion {
+  cuit: string;
+  razonSocial: string;
+  puntoVenta?: number;
+  requiereOnBoarding?: boolean;
+}
+
+// Condiciones de IVA
+export type CondicionIvaReceptor =
+  | "Consumidor Final"
+  | "Responsable Inscripto"
+  | "Monotributista"
+  | "Exento";
+
+export interface OpcionCondicionIva {
+  id: number; // Codigo exigido por ARCA
+  etiqueta: CondicionIvaReceptor;
+  docTipoPorDefecto: number; // 99 para Consumidor Final, 80 para CUIT
+  requiereDoc: boolean;
+}
+
+export const CONDICIONES_IVA: OpcionCondicionIva[] = [
+  {
+    id: 5,
+    etiqueta: "Consumidor Final",
+    docTipoPorDefecto: 99,
+    requiereDoc: false,
+  },
+  {
+    id: 1,
+    etiqueta: "Responsable Inscripto",
+    docTipoPorDefecto: 80,
+    requiereDoc: true,
+  },
+  {
+    id: 6,
+    etiqueta: "Monotributista",
+    docTipoPorDefecto: 80,
+    requiereDoc: true,
+  },
+  { id: 4, etiqueta: "Exento", docTipoPorDefecto: 80, requiereDoc: true },
+];
