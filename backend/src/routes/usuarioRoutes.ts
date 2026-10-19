@@ -5,10 +5,11 @@ import { prisma } from "../db";
 
 const usuarioRoutes = express.Router();
 
-usuarioRoutes.route("/registrar").post(async (req, res) => {
+usuarioRoutes.route("api/auth/register").post(async (req, res) => {
 	try {
 		const { email, password, razonSocial, cuit, condicionIva } = req.body;
 
+		console.log("Leyendo ruta...");
 		// 1. Validaciones básicas
 		if (!email || !password || !razonSocial || !cuit) {
 			return res.status(400).json({
@@ -65,7 +66,7 @@ usuarioRoutes.route("/registrar").post(async (req, res) => {
 	}
 });
 
-usuarioRoutes.route("/login").post(async (req, res) => {
+usuarioRoutes.route("/auth/login").post(async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
