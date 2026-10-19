@@ -17,37 +17,43 @@ export function TarjetaFiscal({ datos, alRefrescar }: TarjetaFiscalProps) {
   };
 
   return (
-    <div className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-      <div>
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <span className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-full">
-              {datos.categoria} • {datos.tipoActividad}
-            </span>
-            <h2 className="text-xl font-bold text-slate-900 mt-2.5">
-              {datos.razonSocial}
-            </h2>
-            <p className="text-xs font-mono text-slate-500 mt-0.5">
-              CUIT {datos.cuit}
-            </p>
-          </div>
+    <div className="relative bg-slate-900/60 border border-slate-800 hover:border-sky-500/40 rounded-2xl p-6 text-center shadow-[0_0_20px_rgba(56,189,248,0.06)] transition-all flex flex-col items-center">
+      {/* Botón de refresco */}
+      <button
+        onClick={manejarRefresco}
+        disabled={cargando}
+        className="mt-3 inline-flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-sky-400 transition-colors cursor-pointer disabled:opacity-50"
+      >
+        <IconoRefresco
+          className={`w-3 h-3 ${cargando ? "animate-spin text-sky-400" : ""}`}
+        />
+        <span>Sincronizar con ARCA</span>
+      </button>
 
-          {/* Boton de refresco*/}
-          <button
-            onClick={manejarRefresco}
-            disabled={cargando}
-            className="p-2.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-all border border-slate-200/60 hover:border-slate-300 disabled:opacity-50 cursor-pointer"
-            title="Refrescar datos con ARCA"
-          >
-            <IconoRefresco
-              className={`w-4 h-4 ${cargando ? "animate-spin text-emerald-600" : ""}`}
-            />
-          </button>
-        </div>
-        <div className="flex items-center gap-1.5 text-xs text-slate-500 border-t border-slate-100 pt-3">
-          <IconoUbicacion className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <span>{datos.domicilioFiscal}</span>
-        </div>
+      {/* Avatar circular */}
+      <div className="w-20 h-20 rounded-full bg-slate-800/80 border-2 border-slate-700 flex items-center justify-center text-3xl mb-4 text-slate-400 mt-2">
+        👤
+      </div>
+
+      {/* Datos del contribuyente */}
+      <h2 className="text-base font-bold text-white tracking-tight">
+        {datos.razonSocial}
+      </h2>
+      <p className="text-xs font-mono text-slate-400 mt-1">CUIT {datos.cuit}</p>
+
+      {/* Categoría */}
+      <div className="mt-3.5">
+        <span className="inline-block text-xs font-semibold text-sky-300 bg-sky-950/60 border border-sky-800/60 px-3.5 py-1 rounded-full">
+          {datos.categoria} • {datos.tipoActividad}
+        </span>
+      </div>
+
+      <div className="w-full border-t border-slate-800/80 my-5" />
+
+      {/* Domicilio */}
+      <div className="flex items-center justify-center gap-2 text-xs text-slate-400 max-w-[280px]">
+        <IconoUbicacion className="w-4 h-4 text-slate-500 shrink-0" />
+        <span className="truncate">{datos.domicilioFiscal}</span>
       </div>
     </div>
   );
