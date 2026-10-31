@@ -10,20 +10,27 @@ const PORT = process.env.PORT;
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+
 app.use(ComprobantesRouter);
 app.use(padronRoutes);
 app.use(usuarioRoutes);
-app.use(express.json({ limit: "10mb" }));
 
 app.listen(PORT, async () => {
-	try {
-		console.log("Conectando a la base de datos...");
+  try {
+    console.log("Conectando a la base de datos...");
 
-		await prisma.$connect();
-		console.log(`Servidor conectado y escuchando en el PUERTO ${PORT}`);
-	} catch (err) {
-		console.log("Error al conectar el servidor.");
-	}
+    await prisma.$connect();
+    console.log(`Servidor conectado y escuchando en el PUERTO ${PORT}`);
+  } catch (err) {
+    console.log("Error al conectar el servidor.");
+  }
 });

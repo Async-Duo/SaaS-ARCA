@@ -1,24 +1,35 @@
 import { useState, useEffect } from "react";
-import { IconoPlus } from "../components/Iconos";
 
 interface AuthProps {
   modoInicial?: "login" | "register";
-  onSuccess: (esRegistro: boolean) => void;
+  onSuccess: (
+    esRegistro: boolean,
+    usuarioRespuesta?: { razonSocial: string; cuit: string },
+  ) => void;
 }
 
 export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
-  // Inicializa según lo que pidió el botón que lo abrió
   const [esLogin, setEsLogin] = useState(modoInicial === "login");
+
   const [cuit, setCuit] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
+
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Si cambia el modo desde afuera mientras está abierto, actualiza la pestaña
+  const limpiarFormulario = () => {
+    setCuit("");
+    setEmail("");
+    setPassword("");
+    setRazonSocial("");
+    setError(null);
+  };
+
   useEffect(() => {
     setEsLogin(modoInicial === "login");
-    setError(null);
+    limpiarFormulario();
   }, [modoInicial]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,9 +38,19 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
     setCargando(true);
 
     const endpoint = esLogin ? "/api/auth/login" : "/api/auth/register";
+
     const payload = esLogin
-      ? { cuit, password }
-      : { cuit, password, razonSocial };
+      ? {
+          cuit,
+          password,
+        }
+      : {
+          email: email.trim() || `${cuit}@facturar.app`, // Email por si Prisma lo exige en DB
+          password,
+          razonSocial,
+          cuit,
+          condicionIva: "MONOTRIBUTO",
+        };
 
     try {
       const res = await fetch(`http://localhost:3000${endpoint}`, {
@@ -42,10 +63,22 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Error al procesar la solicitud");
+        throw new Error(
+          data.error || data.message || "Error al procesar la solicitud",
+        );
       }
 
-      onSuccess(!esLogin);
+      const usuarioObtenido = data.user || data.data;
+
+      onSuccess(
+        !esLogin,
+        usuarioObtenido
+          ? {
+              razonSocial: usuarioObtenido.razonSocial,
+              cuit: usuarioObtenido.cuit,
+            }
+          : undefined,
+      );
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -61,24 +94,24 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
           FacturAR
         </span>
         <h1 className="text-xl font-bold text-white tracking-tight">
-          {esLogin ? "Ingresá a tu panel" : "Creá tu cuenta fiscal"}
+          {esLogin ? "Ingresá a tu panel con CUIT" : "Creá tu cuenta fiscal"}
         </h1>
         <p className="text-xs text-slate-400">
           {esLogin
-            ? "Gestioná tus comprobantes y controlá tu categoría"
+            ? "Gestioná tus comprobantes fiscales sin vueltas"
             : "Automatizá tu facturación electrónica en pocos pasos"}
         </p>
       </div>
 
       {/* Tarjeta del Formulario */}
       <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-[0_0_25px_rgba(56,189,248,0.06)]">
-        {/* Selector Login / Registro (Permite alternar libremente) */}
+        {/* Selector Login / Registro */}
         <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 mb-6">
           <button
             type="button"
             onClick={() => {
               setEsLogin(true);
-              setError(null);
+              limpiarFormulario();
             }}
             className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
               esLogin
@@ -92,7 +125,7 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
             type="button"
             onClick={() => {
               setEsLogin(false);
-              setError(null);
+              limpiarFormulario();
             }}
             className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
               !esLogin
@@ -127,6 +160,7 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
             </div>
           )}
 
+          {/* CUIT visible tanto para login como para registro */}
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-1">
               CUIT (sin guiones)
@@ -138,9 +172,26 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
               value={cuit}
               onChange={(e) => setCuit(e.target.value.replace(/\D/g, ""))}
               placeholder="20384920184"
+              autoComplete="username"
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
             />
           </div>
+
+          {/* Email opcional sólo en el registro por si el usuario quiere guardarlo */}
+          {!esLogin && (
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">
+                Correo Electrónico (Opcional)
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tuemail@ejemplo.com"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-1">
@@ -152,6 +203,7 @@ export function Auth({ modoInicial = "login", onSuccess }: AuthProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
+              autoComplete="current-password"
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-sky-500"
             />
           </div>

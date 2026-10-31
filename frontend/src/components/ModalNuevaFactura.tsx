@@ -191,7 +191,7 @@ export function ModalNuevaFactura({
               <label className="block text-xs font-semibold text-slate-300 mb-1">
                 {condicionSeleccionada.requiereDoc
                   ? "CUIT / CUIL (Obligatorio)"
-                  : "Doc / DNI (Opcional)"}
+                  : "DNI (Opcional)"}
               </label>
               <input
                 type="text"
