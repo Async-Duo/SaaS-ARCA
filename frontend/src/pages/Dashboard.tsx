@@ -15,12 +15,11 @@ import { TutorialOnboarding } from "../components/TutorialOnboarding";
 import { ModalNuevaFactura } from "../components/ModalNuevaFactura";
 
 export function Dashboard() {
-  // Estado de sesión del usuario (null = invitado)
-  const [usuario, setUsuario] = useState<string | null>("M. L. Gómez");
+  const [usuario, setUsuario] = useState<string | null>(null);
   const [datosFiscales, setDatosFiscales] = useState<DatosFiscales | null>(
-    mockDatosFiscales,
+    null,
   );
-  const [facturas, setFacturas] = useState<Factura[]>(mockFacturas);
+  const [facturas, setFacturas] = useState<Factura[]>([]);
 
   const [puntoVenta] = useState<PuntoVenta>({
     numero: 1,
@@ -35,13 +34,34 @@ export function Dashboard() {
   const [modalFacturaAbierto, setModalFacturaAbierto] = useState(false);
 
   // Al autenticarse con éxito
-  const handleAuthSuccess = (esNuevoRegistro: boolean) => {
+  const handleAuthSuccess = (
+    esNuevoRegistro: boolean,
+    datosUsuarioRemoto?: { razonSocial: string; cuit: string },
+  ) => {
     setModalAuth(null);
-    setUsuario("M. L. Gómez");
-    setDatosFiscales(mockDatosFiscales);
 
+    if (datosUsuarioRemoto) {
+      // Setea el nombre real del usuario autenticado
+      setUsuario(datosUsuarioRemoto.razonSocial);
+
+      // Actualiza la tarjeta fiscal con la Razón Social y CUIT reales
+      setDatosFiscales({
+        cuit: datosUsuarioRemoto.cuit,
+        razonSocial: datosUsuarioRemoto.razonSocial,
+        domicilioFiscal: "Domicilio Fiscal no registrado en padrón",
+        categoria: "Categoría C", // O la categoría por defecto
+        tipoActividad: "Servicios",
+        topeCategoria: 13325000,
+        facturadoUltimos12Meses: 0, // Inicia en $0 para el usuario nuevo
+      });
+    } else {
+      // Fallback si no llegaron datos
+      setUsuario("Usuario Autenticado");
+    }
+
+    // Si es registro nuevo, abre el tutorial interactivo
     if (esNuevoRegistro) {
-      setMostrarTutorial(true); // Dispara el tutorial interactivo
+      setMostrarTutorial(true);
     }
   };
 

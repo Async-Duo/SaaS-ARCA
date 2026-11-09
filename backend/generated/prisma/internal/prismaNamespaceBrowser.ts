@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Comprobante: 'Comprobante',
-  Contribuyente: 'Contribuyente'
+  Contribuyente: 'Contribuyente',
+  User: 'User'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -102,6 +103,22 @@ export const ContribuyenteScalarFieldEnum = {
 } as const
 
 export type ContribuyenteScalarFieldEnum = (typeof ContribuyenteScalarFieldEnum)[keyof typeof ContribuyenteScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  razonSocial: 'razonSocial',
+  cuit: 'cuit',
+  condicionIva: 'condicionIva',
+  certificateUrl: 'certificateUrl',
+  privateKeyUrl: 'privateKeyUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const SortOrder = {

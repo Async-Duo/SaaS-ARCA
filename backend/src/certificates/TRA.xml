@@ -3,9 +3,9 @@
     <header>
         <source>SERIALNUMBER=CUIT 23352839159, CN=miestadofiscalhomo</source>
         <destination>CN=wsaahomo, O=AFIP, C=AR, SERIALNUMBER=CUIT 33693450239</destination>
-        <uniqueId>1791682425</uniqueId>
-        <generationTime>2026-10-11T01:23:45.330Z</generationTime>
-        <expirationTime>2026-10-11T13:33:45.330Z</expirationTime>
+        <uniqueId>1793473824</uniqueId>
+        <generationTime>2026-10-31T19:00:24.185Z</generationTime>
+        <expirationTime>2026-11-01T07:10:24.185Z</expirationTime>
     </header>
     <service>wsfe</service>
 </loginTicketRequest>

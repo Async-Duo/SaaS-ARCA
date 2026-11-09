@@ -10,4 +10,5 @@
  */
 export type * from './models/Comprobante'
 export type * from './models/Contribuyente'
+export type * from './models/User'
 export type * from './commonInputTypes'
