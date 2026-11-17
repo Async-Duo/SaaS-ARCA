@@ -20,6 +20,7 @@ Sistema web full-stack desarrollado para la gestión integral de usuarios y la e
 
 ## 📂 Estructura del Repositorio
 
+```text
 SaaS-ARCA/
 ├── backend/
 │   ├── prisma/             # Esquema de base de datos y migraciones
@@ -42,23 +43,27 @@ Node.js (versión 18 o superior recomendada)
 PostgreSQL instalado y corriendo localmente
 
 1. Clonar el repositorio
+Bash
 git clone [https://github.com/Async-Duo/SaaS-ARCA.git](https://github.com/Async-Duo/SaaS-ARCA.git)
 cd SaaS-ARCA
-
 2. Configurar el Backend
+Bash
 cd backend
 npm install
 Creá un archivo .env en la carpeta backend/ basado en tus credenciales locales de base de datos:
 
+Fragmento de código
 DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/tu_base"
 PORT=3000
 Ejecutá las migraciones de Prisma y levanta el servidor:
 
+Bash
 npx prisma migrate dev
 npm run server
-
 3. Configurar el Frontend
 Abrí una nueva terminal en la raíz del proyecto:
+
+Bash
 cd frontend
 npm install
 npm run dev
