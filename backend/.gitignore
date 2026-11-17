@@ -51,3 +51,11 @@ build/
 # Archivos de respaldo de SQLite (si la usas para desarrollo local)
 *.db
 *.db-journal
+
+# Certificados y tokens ARCA
+src/certificates/*.key
+src/certificates/*.crt
+src/certificates/*.pem
+src/certificates/*.7z
+src/certificates/*.xml
+src/certificates/ta_*.json
