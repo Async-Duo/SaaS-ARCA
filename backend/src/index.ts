@@ -5,7 +5,6 @@ import { prisma } from "./db";
 import ComprobantesRouter from "./routes/comprobantesRoutes";
 import padronRoutes from "./routes/padronRoutes";
 import usuarioRoutes from "./routes/usuarioRoutes";
-
 const PORT = process.env.PORT;
 
 const app = express();
@@ -17,7 +16,6 @@ app.use(
   }),
 );
 
-app.use(express.json());
 app.use(express.json({ limit: "10mb" }));
 
 app.use(ComprobantesRouter);
